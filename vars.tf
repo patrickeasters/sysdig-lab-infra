@@ -39,12 +39,38 @@ variable "argocd_hostname" {
   type = string
 }
 
+variable "grafana_hostname" {
+  type = string
+}
+
+variable "grafana_github_client_id" {
+  type = string
+}
+
+variable "grafana_github_client_secret" {
+  type = string
+  sensitive = true
+}
+
+variable "grafana_github_org" {
+  type = string
+}
+
 variable "sysdig_secure_api_token" {
   type = string
   sensitive = true
 }
 
 variable "sysdig_secure_url" {
+  type = string
+}
+
+variable "sysdig_monitor_api_token" {
+  type = string
+  sensitive = true
+}
+
+variable "sysdig_monitor_url" {
   type = string
 }
 

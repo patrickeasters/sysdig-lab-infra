@@ -51,6 +51,10 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: sock-shop
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
 EOF
   )
 
