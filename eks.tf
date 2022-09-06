@@ -96,7 +96,7 @@ resource "helm_release" "caddy" {
 
   set {
     name  = "ingressController.config.email"
-    value = "patrick.easters@sysdig.com"
+    value = var.caddy_acme_email
   }
 
 }

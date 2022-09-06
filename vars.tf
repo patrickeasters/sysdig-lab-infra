@@ -8,6 +8,10 @@ variable "eks_cluster_name" {
   default = "cs-dev"
 }
 
+variable "caddy_acme_email" {
+  type = string
+}
+
 variable "cloudflare_api_token" {
   type = string
   sensitive = true

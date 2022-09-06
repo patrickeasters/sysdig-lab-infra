@@ -1,6 +1,8 @@
 cloudflare_api_token = ""
 cloudflare_argo_zone_id = ""
 
+caddy_acme_email = "me@example.com"
+
 sysdig_secure_api_token = "xxxxxxx"
 sysdig_secure_url = "https://us2.app.sysdig.com"
 sysdig_monitor_api_token = "xxxxxxx"
