@@ -16,13 +16,6 @@ global:
   kspm:
     deploy: true
 
-agent:
-  sysdig:
-    settings:
-      falcobaseline:
-        enabled: true
-        report_interval: 60000000000 # report every minute for better ML demos
-
 nodeAnalyzer:
   nodeAnalyzer:
     runtimeScanner:
