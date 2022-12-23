@@ -85,3 +85,7 @@ variable "sysdig_agent_access_key" {
   type = string
   sensitive = true
 }
+
+variable "sysdig_aws_account_id" {
+  type = string
+}
