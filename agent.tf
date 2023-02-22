@@ -5,7 +5,7 @@ resource "helm_release" "sysdig-agent-local" {
   //chart = "/Users/patrick.easters/git/sysdiglabs/charts/charts/sysdig-deploy"
   repository = "https://charts.sysdig.com"
   chart      = "sysdig-deploy"
-  version    = "1.5.32"
+  version    = "1.5.71"
 
   values = [ <<EOF
 global:
