@@ -36,6 +36,7 @@ EOF
 
 # install sock shop app
 resource "kubernetes_manifest" "sock_shop_app" {
+  count = ( var.first_run ? 0 : 1 )
   manifest = yamldecode(<<EOF
 apiVersion: argoproj.io/v1alpha1
 kind: Application

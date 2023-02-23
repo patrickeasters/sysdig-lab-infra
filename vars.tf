@@ -89,3 +89,8 @@ variable "sysdig_agent_access_key" {
 variable "sysdig_aws_account_id" {
   type = string
 }
+
+variable "first_run" {
+  type = bool
+  default = false
+}
