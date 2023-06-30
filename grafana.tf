@@ -9,7 +9,7 @@ resource "helm_release" "grafana" {
   create_namespace = true
   repository = "https://grafana.github.io/helm-charts"
   chart      = "grafana"
-  version    = "6.35.0"
+  version    = "6.56.5"
   
   values = [ <<EOF
 ingress:
@@ -17,7 +17,7 @@ ingress:
   hosts:
     - ${var.grafana_hostname}
 
-adminPassword: ${random_password.grafana_admin.result}
+adminPassword: "${random_password.grafana_admin.result}"
 
 grafana.ini:
   server:

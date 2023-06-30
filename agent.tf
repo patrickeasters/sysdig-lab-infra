@@ -5,7 +5,7 @@ resource "helm_release" "sysdig-agent-local" {
   //chart = "/Users/patrick.easters/git/sysdiglabs/charts/charts/sysdig-deploy"
   repository = "https://charts.sysdig.com"
   chart      = "sysdig-deploy"
-  version    = "1.5.71"
+  version    = "1.9.2"
 
   values = [ <<EOF
 global:
@@ -19,6 +19,8 @@ global:
     deploy: true
     
 nodeAnalyzer:
+  psp:
+    create: false
   nodeAnalyzer:
     runtimeScanner:
       deploy: true
@@ -29,39 +31,15 @@ admissionController:
   enabled: true
 
 agent:
+  psp:
+    create: false
   sysdig:
     settings:
       tags: env:lab
       app_checks_enabled: false
+      enrich_with_process_lineage: true
       k8s_command:
         enabled: true
-  prometheus:
-    file: true
-    yaml:
-      global:
-        scrape_interval: 10s
-      scrape_configs:
-      - job_name: k8s-cadvisor
-        metrics_path: /metrics/cadvisor
-        scheme: https
-        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-        kubernetes_sd_configs:
-        - role: node
-        relabel_configs:
-        - source_labels: [__name__]
-          regex: "container_cpu_cfs_throttled_periods_total|container_cpu_cfs_throttled_seconds_total"
-          action: keep
-        - action: labelmap
-          regex: __meta_kubernetes_node_label_(.+)
-        - replacement: kubernetes.default.svc:443
-          target_label: __address__
-        - regex: (.+)
-          replacement: /api/v1/nodes/$1/proxy/metrics/cadvisor
-          source_labels:
-            - __meta_kubernetes_node_name
-          target_label: __metrics_path__
-        tls_config:
-          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 EOF
   ]
 
