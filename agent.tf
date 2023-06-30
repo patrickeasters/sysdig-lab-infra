@@ -40,6 +40,8 @@ agent:
       enrich_with_process_lineage: true
       k8s_command:
         enabled: true
+      prometheus_exporter:
+        enabled: true
 EOF
   ]
 
