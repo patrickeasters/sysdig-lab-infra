@@ -5,7 +5,7 @@ resource "helm_release" "sysdig-agent-local" {
   //chart = "/Users/patrick.easters/git/sysdiglabs/charts/charts/sysdig-deploy"
   repository = "https://charts.sysdig.com"
   chart      = "sysdig-deploy"
-  version    = "1.9.2"
+  version    = "1.29.4"
 
   values = [ <<EOF
 global:
@@ -29,10 +29,17 @@ nodeAnalyzer:
 
 admissionController:
   enabled: true
+  features:
+    kspmAdmissionController: true
+  scanner:
+    enabled: false
 
 agent:
   psp:
     create: false
+  ebpf:
+    enabled: true
+    kind: universal_ebpf
   sysdig:
     settings:
       tags: env:lab
