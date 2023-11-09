@@ -40,6 +40,39 @@ agent:
   ebpf:
     enabled: true
     kind: universal_ebpf
+  prometheus:
+    file: true
+    yaml:
+      scrape_configs:
+      - job_name: k8s-cadvisor-disk
+        scrape_interval: 60s
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        scheme: https
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          insecure_skip_verify: true
+        metrics_path: '/metrics/cadvisor'
+        kubernetes_sd_configs:
+        - role: node
+        relabel_configs:
+        - action: keep
+          source_labels: [__meta_kubernetes_node_address_InternalIP]
+          regex: __HOSTIPS__
+        - action: labelmap
+          regex: __meta_kubernetes_node_label_(.+)
+          replacement: kube_node_label_$1
+        - replacement: localhost:10250
+          target_label: __address__
+        - action: replace
+          source_labels: [__meta_kubernetes_node_name]
+          target_label: kube_node_name
+        - action: replace
+          source_labels: [__meta_kubernetes_namespace]
+          target_label: kube_namespace_name
+        metric_relabel_configs:
+        - source_labels: [__name__]
+          regex: "container_fs_writes_bytes_total|container_fs_reads_bytes_total"
+          action: keep
   sysdig:
     settings:
       tags: env:lab
