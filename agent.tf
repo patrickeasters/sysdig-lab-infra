@@ -20,7 +20,12 @@ global:
 nodeAnalyzer:
   psp:
     create: false
+  secure:
+    vulnerabilityManagement:
+      newEngineOnly: true
   nodeAnalyzer:
+    benchmarkRunner:
+      deploy: false
     runtimeScanner:
       deploy: false
 
