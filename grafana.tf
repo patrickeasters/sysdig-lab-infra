@@ -15,13 +15,13 @@ resource "helm_release" "grafana" {
 ingress:
   enabled: true
   hosts:
-    - ${var.grafana_hostname}
+    - grafana.${var.ingress_domain}
 
 adminPassword: "${random_password.grafana_admin.result}"
 
 grafana.ini:
   server:
-    root_url: https://${var.grafana_hostname}/
+    root_url: https://grafana.${var.ingress_domain}/
   auth.github:
     enabled: true
     allow_sign_up: true

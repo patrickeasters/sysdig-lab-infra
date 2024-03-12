@@ -1,11 +1,12 @@
-provider "cloudflare" {
-  api_token = var.cloudflare_api_token
+
+data "aws_route53_zone" "lab_domain" {
+  name         = var.ingress_domain
 }
 
-resource "cloudflare_record" "foobar" {
-  zone_id = var.cloudflare_argo_zone_id
+resource "aws_route53_record" "ingress" {
+  zone_id = data.aws_route53_zone.lab_domain.zone_id
   name    = "*"
-  value   = data.kubernetes_service.caddy.status.0.load_balancer.0.ingress.0.hostname
   type    = "CNAME"
   ttl     = 300
+  records = [data.kubernetes_service.caddy.status.0.load_balancer.0.ingress.0.hostname]
 }

@@ -1,30 +1,34 @@
 # Module docs: https://registry.terraform.io/modules/terraform-aws-modules/eks/aws
 
-data "aws_eks_cluster_auth" "eks_cluster" {
-  name = var.eks_cluster_name
-}
-
-module "eks_cluster" {
+module "eks_fargate" {
+  count           = ( var.deploy_fargate ? 1 : 0 )
   source          = "terraform-aws-modules/eks/aws"
-  version         = "20.8.3"
-  cluster_name    = var.eks_cluster_name
-  cluster_version = "1.29"
+  version         = "19.21.0"
+  cluster_name    = "${var.eks_cluster_name}-fargate"
+  cluster_version = "1.28"
   subnet_ids      = module.cs_vpc.vpc_private_subnets
   vpc_id          = module.cs_vpc.vpc_id
   
   cluster_endpoint_public_access = true
-  enable_cluster_creator_admin_permissions = true
 
-  eks_managed_node_groups = {
-    nodes = {
-      min_size     = 1
-      max_size     = 3
-      desired_size = 2
-
-      instance_types = ["t3.xlarge"]
-      capacity_type  = "SPOT"
+  # Fargate Profile(s)
+  fargate_profiles = {
+    default = {
+      name = "default"
+      selectors = [
+        {
+          namespace = "default"
+        },
+        {
+          namespace = "app-*"
+        },
+        {
+          namespace = "sock-shop"
+        }
+      ]
     }
   }
+
 
   cluster_security_group_additional_rules = {
     # open up access to higher ports from control plane
@@ -72,44 +76,4 @@ module "eks_cluster" {
   tags = {
     Terraform   = "true"
   }
-}
-
-provider "helm" {
-  kubernetes {
-    host                   = module.eks_cluster.cluster_endpoint
-    cluster_ca_certificate = base64decode(module.eks_cluster.cluster_certificate_authority_data)
-    token                  = data.aws_eks_cluster_auth.eks_cluster.token
-  }
-}
-
-provider "kubernetes" {
-  host                   = module.eks_cluster.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks_cluster.cluster_certificate_authority_data)
-  token                  = data.aws_eks_cluster_auth.eks_cluster.token
-}
-
-# bootstrap with Caddy Ingress
-resource "helm_release" "caddy" {
-  name       = "caddy-ingress"
-  namespace  = "caddy-system"
-  create_namespace = true
-  repository = "https://caddyserver.github.io/ingress/"
-  chart      = "caddy-ingress-controller"
-  version    = "1.1.0"
-
-  set {
-    name  = "ingressController.config.email"
-    value = var.caddy_acme_email
-  }
-
-}
-
-data "kubernetes_service" "caddy" {
-  metadata {
-    name = "caddy-ingress-caddy-ingress-controller"
-    namespace  = "caddy-system"
-  }
-  depends_on = [
-    helm_release.caddy,
-  ]
 }

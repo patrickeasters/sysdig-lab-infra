@@ -1,11 +1,10 @@
-resource "helm_release" "sysdig-agent-local" {
+resource "helm_release" "sysdig-agent" {
   name       = "sysdig"
   namespace  = "sysdig-agent"
   create_namespace = true
-  //chart = "/Users/patrick.easters/git/sysdiglabs/charts/charts/sysdig-deploy"
   repository = "https://charts.sysdig.com"
   chart      = "sysdig-deploy"
-  version    = "1.29.4"
+  version    = "1.43.0"
 
   values = [ <<EOF
 global:
@@ -23,16 +22,16 @@ nodeAnalyzer:
     create: false
   nodeAnalyzer:
     runtimeScanner:
-      deploy: true
-      settings:
-        eveEnabled: true
+      deploy: false
+
+clusterScanner:
+  enabled: false
 
 admissionController:
-  enabled: true
-  features:
-    kspmAdmissionController: true
-  scanner:
-    enabled: false
+  enabled: false
+
+kspm-collector:
+  enabled: false
 
 agent:
   psp:
@@ -82,6 +81,36 @@ agent:
         enabled: true
       prometheus_exporter:
         enabled: true
+EOF
+  ]
+
+}
+
+resource "helm_release" "sysdig-cluster-shield" {
+  name       = "sysdig-cluster-shield"
+  namespace  = "sysdig-agent"
+  create_namespace = true
+  chart      = "oci://quay.io/sysdig/cluster-shield"
+  version    = "0.1.0-helm"
+
+  values = [ <<EOF
+cluster_shield:
+  cluster_config:
+    name: ${var.eks_cluster_name}
+  features:
+    admission_control:
+      enabled: true
+    audit:
+      enabled: true
+    container_vulnerability_management:
+      enabled: true
+      platform_services_enabled: true
+    posture:
+      enabled: false
+  sysdig_endpoint:
+    api_url: ${var.sysdig_secure_url}
+    secure_api_token: ${var.sysdig_secure_api_token}
+    access_key: ${var.sysdig_agent_access_key}
 EOF
   ]
 

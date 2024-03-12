@@ -13,9 +13,9 @@ server:
   ingress:
     enabled: true
     hosts:
-      - ${var.argocd_hostname}
+      - argocd.${var.ingress_domain}
   config:
-    url: https://${var.argocd_hostname}
+    url: https://argocd.${var.ingress_domain}
     dex.config: |
       connectors:
         - type: github

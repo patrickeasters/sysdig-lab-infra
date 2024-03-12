@@ -12,15 +12,6 @@ variable "caddy_acme_email" {
   type = string
 }
 
-variable "cloudflare_api_token" {
-  type = string
-  sensitive = true
-}
-
-variable "cloudflare_argo_zone_id" {
-  type = string
-}
-
 variable "argocd_github_client_id" {
   type = string
 }
@@ -39,11 +30,7 @@ variable "argocd_github_admin_team" {
   default = "devops"
 }
 
-variable "argocd_hostname" {
-  type = string
-}
-
-variable "grafana_hostname" {
+variable "ingress_domain" {
   type = string
 }
 
@@ -91,6 +78,11 @@ variable "sysdig_aws_account_id" {
 }
 
 variable "first_run" {
+  type = bool
+  default = false
+}
+
+variable "deploy_fargate" {
   type = bool
   default = false
 }
