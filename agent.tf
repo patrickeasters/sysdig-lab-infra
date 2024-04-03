@@ -4,7 +4,8 @@ resource "helm_release" "sysdig-agent" {
   create_namespace = true
   repository = "https://charts.sysdig.com"
   chart      = "sysdig-deploy"
-  version    = "1.43.0"
+  version    = "1.44.1"
+  # chart = "/Users/patrick.easters/git/sysdiglabs/charts/charts/sysdig-deploy"
 
   values = [ <<EOF
 global:
@@ -35,7 +36,7 @@ clusterScanner:
 admissionController:
   enabled: false
 
-kspm-collector:
+kspmCollector:
   enabled: false
 
 agent:
