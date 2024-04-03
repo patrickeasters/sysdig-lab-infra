@@ -15,6 +15,12 @@ module "eks_cluster" {
   cluster_endpoint_public_access = true
   enable_cluster_creator_admin_permissions = true
 
+  cluster_addons = {
+    aws-ebs-csi-driver = {
+      most_recent = true
+    }
+  }
+
   eks_managed_node_groups = {
     nodes = {
       min_size     = 1
@@ -23,6 +29,10 @@ module "eks_cluster" {
 
       instance_types = ["t3.xlarge"]
       capacity_type  = "SPOT"
+
+      iam_role_additional_policies = {
+        AmazonEBSCSIDriverPolicy            = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+      }
     }
   }
 
