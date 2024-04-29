@@ -4,7 +4,7 @@ resource "helm_release" "sysdig-agent" {
   create_namespace = true
   repository = "https://charts.sysdig.com"
   chart      = "sysdig-deploy"
-  version    = "1.44.1"
+  version    = "1.51.4"
   # chart = "/Users/patrick.easters/git/sysdiglabs/charts/charts/sysdig-deploy"
 
   values = [ <<EOF
@@ -97,7 +97,7 @@ resource "helm_release" "sysdig-cluster-shield" {
   namespace  = "sysdig-agent"
   create_namespace = true
   chart      = "oci://quay.io/sysdig/cluster-shield"
-  version    = "0.1.0-helm"
+  version    = "0.9.0-helm"
 
   values = [ <<EOF
 cluster_shield:
