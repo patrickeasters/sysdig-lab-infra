@@ -3,9 +3,9 @@
 module "eks_fargate" {
   count           = ( var.deploy_fargate ? 1 : 0 )
   source          = "terraform-aws-modules/eks/aws"
-  version         = "19.21.0"
+  version         = "20.8.5"
   cluster_name    = "${var.eks_cluster_name}-fargate"
-  cluster_version = "1.28"
+  cluster_version = "1.29"
   subnet_ids      = module.cs_vpc.vpc_private_subnets
   vpc_id          = module.cs_vpc.vpc_id
   
