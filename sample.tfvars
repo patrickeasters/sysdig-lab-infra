@@ -6,7 +6,7 @@ caddy_acme_email = "me@example.com"
 sysdig_secure_api_token = "xxxxxxx"
 sysdig_secure_url = "https://us2.app.sysdig.com"
 sysdig_monitor_api_token = "xxxxxxx"
-sysdig_monitor_url = "https://us2.app.sysdig.com/"
+sysdig_monitor_url = "https://us2.app.sysdig.com"
 sysdig_region = "us2"
 sysdig_agent_access_key = "xxxxxxx"
 
