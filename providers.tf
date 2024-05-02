@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     sysdig = {
-      source  = "sysdiglabs/sysdig"
+      source = "sysdiglabs/sysdig"
     }
     cloudflare = {
       source  = "cloudflare/cloudflare"

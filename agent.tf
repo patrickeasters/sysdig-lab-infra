@@ -1,13 +1,13 @@
 resource "helm_release" "sysdig-agent" {
-  name       = "sysdig"
-  namespace  = "sysdig-agent"
+  name             = "sysdig"
+  namespace        = "sysdig-agent"
   create_namespace = true
-  repository = "https://charts.sysdig.com"
-  chart      = "sysdig-deploy"
-  version    = "1.51.4"
+  repository       = "https://charts.sysdig.com"
+  chart            = "sysdig-deploy"
+  version          = "1.51.4"
   # chart = "/Users/patrick.easters/git/sysdiglabs/charts/charts/sysdig-deploy"
 
-  values = [ <<EOF
+  values = [<<EOF
 global:
   sysdig:
     accessKey: ${var.sysdig_agent_access_key}
@@ -93,13 +93,13 @@ EOF
 }
 
 resource "helm_release" "sysdig-cluster-shield" {
-  name       = "sysdig-cluster-shield"
-  namespace  = "sysdig-agent"
+  name             = "sysdig-cluster-shield"
+  namespace        = "sysdig-agent"
   create_namespace = true
-  chart      = "oci://quay.io/sysdig/cluster-shield"
-  version    = "0.9.0-helm"
+  chart            = "oci://quay.io/sysdig/cluster-shield"
+  version          = "0.9.0-helm"
 
-  values = [ <<EOF
+  values = [<<EOF
 cluster_shield:
   cluster_config:
     name: ${var.eks_cluster_name}

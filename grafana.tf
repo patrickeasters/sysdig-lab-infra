@@ -1,17 +1,17 @@
 resource "random_password" "grafana_admin" {
-  length           = 50
-  special          = true
+  length  = 50
+  special = true
 }
 
 resource "helm_release" "grafana" {
-  name       = "grafana"
-  namespace  = "grafana"
+  name             = "grafana"
+  namespace        = "grafana"
   create_namespace = true
-  repository = "https://grafana.github.io/helm-charts"
-  chart      = "grafana"
-  version    = "6.56.5"
-  
-  values = [ <<EOF
+  repository       = "https://grafana.github.io/helm-charts"
+  chart            = "grafana"
+  version          = "6.56.5"
+
+  values = [<<EOF
 ingress:
   enabled: true
   hosts:

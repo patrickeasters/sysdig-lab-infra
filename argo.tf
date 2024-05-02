@@ -1,12 +1,12 @@
 resource "helm_release" "argocd" {
-  name       = "argocd"
-  namespace  = "argocd"
+  name             = "argocd"
+  namespace        = "argocd"
   create_namespace = true
-  repository = "https://argoproj.github.io/argo-helm/"
-  chart      = "argo-cd"
-  version    = "4.10.8"
-  
-  values = [ <<EOF
+  repository       = "https://argoproj.github.io/argo-helm/"
+  chart            = "argo-cd"
+  version          = "4.10.8"
+
+  values = [<<EOF
 server:
   extraArgs:
     - '--insecure' # TLS is terminated by ingress controller
@@ -36,7 +36,7 @@ EOF
 
 # install sock shop app
 resource "kubernetes_manifest" "sock_shop_app" {
-  count = ( var.first_run ? 0 : 1 )
+  count = (var.first_run ? 0 : 1)
   manifest = yamldecode(<<EOF
 apiVersion: argoproj.io/v1alpha1
 kind: Application

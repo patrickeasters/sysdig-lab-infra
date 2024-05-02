@@ -1,6 +1,6 @@
 
 data "aws_route53_zone" "lab_domain" {
-  name         = var.ingress_domain
+  name = var.ingress_domain
 }
 
 resource "aws_route53_record" "ingress" {

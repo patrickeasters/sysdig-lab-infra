@@ -11,8 +11,8 @@ module "eks_cluster" {
   cluster_version = "1.29"
   subnet_ids      = module.cs_vpc.vpc_private_subnets
   vpc_id          = module.cs_vpc.vpc_id
-  
-  cluster_endpoint_public_access = true
+
+  cluster_endpoint_public_access           = true
   enable_cluster_creator_admin_permissions = true
 
   cluster_addons = {
@@ -31,7 +31,7 @@ module "eks_cluster" {
       capacity_type  = "SPOT"
 
       iam_role_additional_policies = {
-        AmazonEBSCSIDriverPolicy            = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+        AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
       }
     }
   }
@@ -51,11 +51,11 @@ module "eks_cluster" {
   node_security_group_additional_rules = {
     # open up traffic from control pkane
     control_plane_all = {
-      description = "Control plane all ports/protocols"
-      protocol    = "-1"
-      from_port   = 0
-      to_port     = 0
-      type        = "ingress"
+      description                   = "Control plane all ports/protocols"
+      protocol                      = "-1"
+      from_port                     = 0
+      to_port                       = 0
+      type                          = "ingress"
       source_cluster_security_group = true
     }
     # open up node-to-node traffic
@@ -80,7 +80,7 @@ module "eks_cluster" {
   }
 
   tags = {
-    Terraform   = "true"
+    Terraform = "true"
   }
 }
 
@@ -100,12 +100,12 @@ provider "kubernetes" {
 
 # bootstrap with Caddy Ingress
 resource "helm_release" "caddy" {
-  name       = "caddy-ingress"
-  namespace  = "caddy-system"
+  name             = "caddy-ingress"
+  namespace        = "caddy-system"
   create_namespace = true
-  repository = "https://caddyserver.github.io/ingress/"
-  chart      = "caddy-ingress-controller"
-  version    = "1.1.0"
+  repository       = "https://caddyserver.github.io/ingress/"
+  chart            = "caddy-ingress-controller"
+  version          = "1.1.0"
 
   set {
     name  = "ingressController.config.email"
@@ -116,8 +116,8 @@ resource "helm_release" "caddy" {
 
 data "kubernetes_service" "caddy" {
   metadata {
-    name = "caddy-ingress-caddy-ingress-controller"
-    namespace  = "caddy-system"
+    name      = "caddy-ingress-caddy-ingress-controller"
+    namespace = "caddy-system"
   }
   depends_on = [
     helm_release.caddy,

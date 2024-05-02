@@ -4,7 +4,7 @@ variable "aws_region" {
 }
 
 variable "eks_cluster_name" {
-  type = string
+  type    = string
   default = "cs-dev"
 }
 
@@ -17,7 +17,7 @@ variable "argocd_github_client_id" {
 }
 
 variable "argocd_github_client_secret" {
-  type = string
+  type      = string
   sensitive = true
 }
 
@@ -26,7 +26,7 @@ variable "argocd_github_org" {
 }
 
 variable "argocd_github_admin_team" {
-  type = string
+  type    = string
   default = "devops"
 }
 
@@ -39,7 +39,7 @@ variable "grafana_github_client_id" {
 }
 
 variable "grafana_github_client_secret" {
-  type = string
+  type      = string
   sensitive = true
 }
 
@@ -48,7 +48,7 @@ variable "grafana_github_org" {
 }
 
 variable "sysdig_secure_api_token" {
-  type = string
+  type      = string
   sensitive = true
 }
 
@@ -57,7 +57,7 @@ variable "sysdig_secure_url" {
 }
 
 variable "sysdig_monitor_api_token" {
-  type = string
+  type      = string
   sensitive = true
 }
 
@@ -69,7 +69,7 @@ variable "sysdig_region" {
   type = string
 }
 variable "sysdig_agent_access_key" {
-  type = string
+  type      = string
   sensitive = true
 }
 
@@ -78,11 +78,11 @@ variable "sysdig_aws_account_id" {
 }
 
 variable "first_run" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "deploy_fargate" {
-  type = bool
+  type    = bool
   default = false
 }
